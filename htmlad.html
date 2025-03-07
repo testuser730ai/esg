@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <title>測試資訊圖表（無提示訊息）</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .infographic-page {
+            width: 583px;
+            height: 186px;
+            position: relative;
+            margin: 20px auto; /* 上下間距，水平居中 */
+            background: #fff; /* 白色背景 */
+            border-radius: 5px; /* 輕微圓角，模仿圖片邊框 */
+        }
+        .background-box {
+            position: absolute;
+            top: 8px;
+            left: 9px;
+            width: 566px;
+            height: 172px;
+            border: 3px solid #4C4C4C; /* 深灰邊框 */
+            border-radius: 24px; /* 圓角 */
+        }
+        .event-image {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 150px;
+            height: auto;
+            z-index: 1; /* 確保圖片在背景之上 */
+        }
+        .text-box {
+            position: absolute;
+            top: 25px;
+            left: 180px; /* 留空間給圖片 */
+            width: 400px; /* 限制文字寬度 */
+            text-align: center;
+            z-index: 2;
+        }
+        .text-box h1 {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            color: #000;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .text-box p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 22px;
+            color: #000;
+            margin: 5px 0 0;
+        }
+        .button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 340px; /* 根據圖片按鈕寬度調整 */
+            height: 46px;
+            background: #A338D4; /* 紫色填充 */
+            color: #fff;
+            text-align: center;
+            line-height: 46px;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 28px;
+            font-weight: bold;
+            border-radius: 19px;
+            text-decoration: none;
+            animation: pulse 1s infinite; /* 脈動動畫 */
+            cursor: pointer; /* 顯示手型指標 */
+            z-index: 3;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 測試部分 1 -->
+    <div class="infographic-page">
+        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
+            <div class="background-box"></div>
+        </a>
+        <img src="https://static.scientificamerican.com/sciam/cache/file/F766A67E-A8AA-4C90-A929C9AC67075D4B_source.jpg?w=1350" class="event-image">
+        <div class="text-box">
+            <h1>測試資訊圖表</h1>
+            <p>這是一個測試活動描述<br>用於測試資訊圖表功能</p>
+        </div>
+        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
+            <div class="button">測試按鈕</div>
+        </a>
+    </div>
+
+    <!-- 測試部分 2 -->
+    <div class="infographic-page">
+        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
+            <div class="background-box"></div>
+        </a>
+        <img src="https://static.scientificamerican.com/sciam/cache/file/F766A67E-A8AA-4C90-A929C9AC67075D4B_source.jpg?w=1350" class="event-image">
+        <div class="text-box">
+            <h1>測試活動</h1>
+            <p>這是另一個測試描述<br>用於驗證設計效果</p>
+        </div>
+        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
+            <div class="button">測試連結</div>
+        </a>
+    </div>
+
+    <script>
+        // 修正後的測試按鈕點擊行為（無提示）
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); // 阻止預設連結行為
+                    // 直接導向正確的URL，無提示
+                    window.location.href = 'https://www.am730.com.hk/x/x/536322';
+                });
+                // 滑鼠懸停效果（可選）
+                button.addEventListener('mouseover', () => {
+                    button.style.backgroundColor = '#8A2BE2'; // 更深的紫色
+                });
+                button.addEventListener('mouseout', () => {
+                    button.style.backgroundColor = '#A338D4'; // 恢復原色
+                });
+            });
+        });
+    </script>
+</body>
+</html>
