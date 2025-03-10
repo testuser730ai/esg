@@ -7,45 +7,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            margin: 0; /* 移除空白 */
+            margin: 0;
             padding: 0;
             background: #fff;
             touch-action: manipulation;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* 確保填充螢幕 */
+            min-height: 100vh;
         }
         .infographic {
-            width: 100%;
-            max-width: 700px; /* 放大網站顯示 */
-            height: auto; /* 自適應高度 */
-            margin: 0; /* 移除外邊距 */
+            width: 100%; /* 適配網站全寬 */
+            max-width: 100%; /* 移除最大寬度限制 */
+            height: auto;
+            margin: 0;
             background: #fff;
-            border: 2px solid #ccc; /* 增加邊框厚度 */
+            border: 2px solid #ccc;
             border-radius: 5px;
-            padding: 8px; /* 增加內邊距 */
+            padding: 10px; /* 增加內邊距 */
             font-family: 'Noto Sans', sans-serif;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-sizing: border-box;
-            overflow: hidden; /* 禁用滾動 */
+            overflow: hidden;
         }
         .title, .discount {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 4px; /* 增加間距 */
+            margin-bottom: 6px; /* 增加間距 */
         }
         .emoji {
-            font-size: 18px; /* 放大表情符號 */
+            font-size: 24px; /* 放大表情符號 */
             color: #FFD700;
-            margin-right: 4px; /* 增加間距 */
+            margin-right: 6px; /* 增加間距 */
         }
         .title-text {
-            font-size: 16px; /* 放大標題文字 */
+            font-size: 20px; /* 放大標題文字 */
             font-weight: bold;
             color: #000;
         }
@@ -53,24 +53,26 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 4px 0; /* 增加間距 */
-            flex-wrap: wrap;
+            margin: 6px 0; /* 增加間距 */
+            flex-wrap: wrap; /* 允許換行 */
+            gap: 4px; /* 控制按鈕間距 */
         }
         .button {
             display: inline-block;
-            padding: 4px 12px; /* 增加內邊距 */
-            margin: 4px; /* 增加外邊距 */
-            border-radius: 20px; /* 增加圓角 */
-            font-size: 14px; /* 放大字體 */
+            padding: 6px 15px; /* 增加內邊距 */
+            margin: 0; /* 移除外邊距，使用gap控制 */
+            border-radius: 25px; /* 增加圓角 */
+            font-size: 16px; /* 放大字體 */
             font-weight: bold;
             text-decoration: none;
             text-align: center;
-            height: 30px; /* 增加高度 */
-            line-height: 30px;
+            height: 40px; /* 增加高度 */
+            line-height: 40px;
             color: #fff;
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
             z-index: 10;
-            width: 100px; /* 增加寬度 */
+            width: 120px; /* 增加寬度 */
+            box-sizing: border-box; /* 確保尺寸準確 */
         }
         .trip {
             background-color: #007bff;
@@ -88,7 +90,7 @@
             opacity: 0.8;
         }
         .discount-text {
-            font-size: 12px; /* 放大折扣文字 */
+            font-size: 14px; /* 放大折扣文字 */
             color: #000;
         }
         .discount-link {
@@ -103,23 +105,23 @@
             color: #ff4500;
         }
         .arrow {
-            font-size: 18px; /* 放大箭頭 */
+            font-size: 24px; /* 放大箭頭 */
             color: #ff0000;
         }
         /* 針對App或小螢幕 */
         @media (max-width: 400px) {
             .infographic {
-                max-width: 200px; /* 進一步縮小App顯示 */
+                max-width: 180px; /* 進一步縮小App顯示 */
                 height: 70px; /* 減小高度 */
                 padding: 4px;
             }
             .button {
                 font-size: 8px; /* 縮小字體 */
-                width: 50px; /* 縮小寬度 */
-                height: 18px; /* 縮小高度 */
-                line-height: 18px;
-                padding: 1px 6px;
-                margin: 2px;
+                width: 40px; /* 縮小寬度 */
+                height: 20px; /* 縮小高度 */
+                line-height: 20px;
+                padding: 1px 4px; /* 縮小內邊距 */
+                margin: 0;
             }
             .title-text {
                 font-size: 8px; /* 縮小標題文字 */
@@ -128,7 +130,10 @@
                 font-size: 6px; /* 縮小折扣文字 */
             }
             .emoji, .arrow {
-                font-size: 12px; /* 縮小表情和箭頭 */
+                font-size: 10px; /* 縮小表情和箭頭 */
+            }
+            .buttons {
+                gap: 2px; /* 減小按鈕間距 */
             }
         }
     </style>
