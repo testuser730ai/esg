@@ -2,24 +2,64 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>AM730 ESG Awards Map</title>
     <style>
-        /* 可選：添加樣式讓內容適應iframe */
         body {
             margin: 0;
             padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 900px; /* 假設原始圖片寬度為900px */
+            margin: 0 auto;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <img src="am730_ESG.jpg" usemap="#image-map" style="max-width:100%;height:auto;">
-    
-    <map name="image-map">
-        <area target="_blank" 
-              alt="am730.com.hk" 
-              title="am730.com.hk" 
-              href="https://www.am730.com.hk/" 
-              coords="458,364,828,481" 
-              shape="rect">
-    </map>
+    <div class="container">
+        <img src="https://cdn.am730.com.hk/s3fs-public/2025-01/am730_ESG%20awards%202024%20register%20now.jpg" 
+             usemap="#image-map" 
+             id="esg-image" 
+             alt="AM730 ESG Awards 2024">
+        <map name="image-map" id="image-map">
+            <area target="_blank" 
+                  alt="am730.com.hk" 
+                  title="am730.com.hk" 
+                  href="https://www.am730.com.hk/" 
+                  coords="461,364,824,482" 
+                  shape="rect" 
+                  data-original-coords="461,364,824,482">
+        </map>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const img = document.getElementById('esg-image');
+            const area = document.querySelector('area');
+            const originalCoords = area.getAttribute('data-original-coords').split(',');
+            const originalWidth = 900; // 根據你的圖片實際寬度調整
+
+            function updateCoords() {
+                const currentWidth = img.clientWidth;
+                const scale = currentWidth / originalWidth;
+                const newCoords = originalCoords.map(coord => Math.round(coord * scale));
+                area.coords = newCoords.join(',');
+            }
+
+            // 初次載入時更新座標
+            updateCoords();
+            
+            // 視窗大小改變時重新計算
+            window.addEventListener('resize', updateCoords);
+        };
+    </script>
 </body>
 </html>
