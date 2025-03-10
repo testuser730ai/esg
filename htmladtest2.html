@@ -17,14 +17,14 @@
             min-height: 100vh;
         }
         .infographic {
-            width: 100%; /* 適配網站全寬 */
-            max-width: 100%; /* 移除最大寬度限制 */
+            width: 100%;
+            max-width: 900px; /* 放大網站顯示 */
             height: auto;
             margin: 0;
             background: #fff;
             border: 2px solid #ccc;
             border-radius: 5px;
-            padding: 10px; /* 增加內邊距 */
+            padding: 10px;
             font-family: 'Noto Sans', sans-serif;
             position: relative;
             display: flex;
@@ -37,15 +37,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 6px; /* 增加間距 */
+            margin-bottom: 5px;
         }
         .emoji {
-            font-size: 24px; /* 放大表情符號 */
+            font-size: 20px;
             color: #FFD700;
-            margin-right: 6px; /* 增加間距 */
+            margin-right: 5px;
         }
         .title-text {
-            font-size: 20px; /* 放大標題文字 */
+            font-size: 18px; /* 放大標題文字 */
             font-weight: bold;
             color: #000;
         }
@@ -53,26 +53,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 6px 0; /* 增加間距 */
-            flex-wrap: wrap; /* 允許換行 */
-            gap: 4px; /* 控制按鈕間距 */
+            margin: 5px 0;
+            flex-wrap: wrap;
         }
         .button {
             display: inline-block;
-            padding: 6px 15px; /* 增加內邊距 */
-            margin: 0; /* 移除外邊距，使用gap控制 */
-            border-radius: 25px; /* 增加圓角 */
+            padding: 5px 15px; /* 增加內邊距 */
+            margin: 5px; /* 增加外邊距 */
+            border-radius: 20px;
             font-size: 16px; /* 放大字體 */
             font-weight: bold;
             text-decoration: none;
             text-align: center;
-            height: 40px; /* 增加高度 */
-            line-height: 40px;
+            height: 35px; /* 增加高度 */
+            line-height: 35px;
             color: #fff;
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
             z-index: 10;
             width: 120px; /* 增加寬度 */
-            box-sizing: border-box; /* 確保尺寸準確 */
         }
         .trip {
             background-color: #007bff;
@@ -82,9 +80,6 @@
         }
         .klook {
             background-color: #ff4500;
-        }
-        .booking {
-            background-color: #007bff;
         }
         .button:hover {
             opacity: 0.8;
@@ -105,35 +100,32 @@
             color: #ff4500;
         }
         .arrow {
-            font-size: 24px; /* 放大箭頭 */
+            font-size: 20px;
             color: #ff0000;
         }
         /* 針對App或小螢幕 */
         @media (max-width: 400px) {
             .infographic {
-                max-width: 180px; /* 進一步縮小App顯示 */
-                height: 70px; /* 減小高度 */
+                max-width: 200px; /* App中保持 */
+                height: 70px;
                 padding: 4px;
             }
             .button {
-                font-size: 8px; /* 縮小字體 */
-                width: 40px; /* 縮小寬度 */
-                height: 20px; /* 縮小高度 */
-                line-height: 20px;
-                padding: 1px 4px; /* 縮小內邊距 */
-                margin: 0;
+                font-size: 8px;
+                width: 55px; /* 調整寬度以適配3個按鈕 */
+                height: 18px;
+                line-height: 18px;
+                padding: 1px 6px;
+                margin: 2px;
             }
             .title-text {
-                font-size: 8px; /* 縮小標題文字 */
+                font-size: 8px;
             }
             .discount-text {
-                font-size: 6px; /* 縮小折扣文字 */
+                font-size: 6px;
             }
             .emoji, .arrow {
-                font-size: 10px; /* 縮小表情和箭頭 */
-            }
-            .buttons {
-                gap: 2px; /* 減小按鈕間距 */
+                font-size: 12px;
             }
         }
     </style>
@@ -148,7 +140,7 @@
             <a href="https://www.trip.com" target="_blank" class="button trip">Trip.com</a>
             <a href="https://www.agoda.com" target="_blank" class="button agoda">Agoda.com</a>
             <a href="https://www.klook.com" target="_blank" class="button klook">Klook.com</a>
-            <a href="https://www.booking.com" target="_blank" class="button booking">Booking.com</a>
+            <!-- 移除Booking.com按鈕 -->
         </div>
         <div class="discount">
             <div class="discount-text">
