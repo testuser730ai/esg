@@ -2,132 +2,205 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <title>測試資訊圖表（無提示訊息）</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>旅遊平台折扣資訊圖表（文字連結版）</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .infographic-page {
-            width: 583px;
-            height: 186px;
-            position: relative;
-            margin: 20px auto; /* 上下間距，水平居中 */
-            background: #fff; /* 白色背景 */
-            border-radius: 5px; /* 輕微圓角，模仿圖片邊框 */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            touch-action: manipulation;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .background-box {
-            position: absolute;
-            top: 8px;
-            left: 9px;
-            width: 566px;
-            height: 172px;
-            border: 3px solid #4C4C4C; /* 深灰邊框 */
-            border-radius: 24px; /* 圓角 */
-        }
-        .event-image {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 150px;
-            height: auto;
-            z-index: 1; /* 確保圖片在背景之上 */
-        }
-        .text-box {
-            position: absolute;
-            top: 25px;
-            left: 180px; /* 留空間給圖片 */
-            width: 400px; /* 限制文字寬度 */
-            text-align: center;
-            z-index: 2;
-        }
-        .text-box h1 {
+        .infographic {
+            width: 90vw; /* 相對螢幕寬度 */
+            max-width: 1000px; /* 網站最大寬度 */
+            height: auto; /* 高度自適應 */
+            margin: 0 auto;
+            background: #fff;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 1vw; /* 相對內邊距 */
             font-family: 'Noto Sans', sans-serif;
-            font-size: 36px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .title, .discount {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5vw; /* 相對間距 */
+        }
+        .emoji {
+            font-size: 2vw; /* 相對文字大小 */
+            color: #FFD700;
+            margin-right: 0.5vw;
+        }
+        .title-text {
+            font-size: 2vw;
             font-weight: bold;
             color: #000;
-            margin: 0;
-            line-height: 1.2;
         }
-        .text-box p {
-            font-family: 'Roboto', sans-serif;
-            font-size: 22px;
-            color: #000;
-            margin: 5px 0 0;
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0.5vw 0;
+            flex-wrap: wrap;
         }
         .button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 340px; /* 根據圖片按鈕寬度調整 */
-            height: 46px;
-            background: #A338D4; /* 紫色填充 */
-            color: #fff;
-            text-align: center;
-            line-height: 46px;
-            font-family: 'Noto Sans', sans-serif;
-            font-size: 28px;
+            display: inline-block;
+            padding: 0.5vw 1.5vw;
+            margin: 0.5vw;
+            border-radius: 2vw;
+            font-size: 1.5vw;
             font-weight: bold;
-            border-radius: 19px;
             text-decoration: none;
-            animation: pulse 1s infinite; /* 脈動動畫 */
-            cursor: pointer; /* 顯示手型指標 */
-            z-index: 3;
+            text-align: center;
+            height: 4vw;
+            line-height: 4vw;
+            color: #fff;
+            text-shadow: 0 0.2vw 0.2vw rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            width: 15vw; /* 相對寬度 */
+            box-sizing: border-box;
+            background-color: inherit;
+            overflow: hidden;
+            white-space: nowrap; /* 防止文字換行 */
+            text-overflow: ellipsis; /* 文字溢出顯示省略號 */
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .trip {
+            background-color: #007bff;
+        }
+        .agoda {
+            background-color: #ff8c00;
+        }
+        .klook {
+            background-color: #ff4500;
+        }
+        .booking {
+            background-color: #007bff;
+        }
+        .button:hover {
+            opacity: 0.8;
+        }
+        .discount-text {
+            font-size: 1.2vw;
+            color: #000;
+            text-align: center;
+        }
+        .discount-link {
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .trip-link {
+            color: #007bff;
+        }
+        .klook-link {
+            color: #ff4500;
+        }
+        .arrow {
+            font-size: 2vw;
+            color: #ff0000;
+        }
+        /* 小螢幕 (<400px，例如iPhone 6) */
+        @media (max-width: 400px) {
+            .infographic {
+                padding: 1vw;
+            }
+            .button {
+                font-size: 2.5vw;
+                width: 20vw;
+                height: 6vw;
+                line-height: 6vw;
+                padding: 0.5vw 1vw;
+                margin: 0.5vw;
+            }
+            .title-text {
+                font-size: 3vw;
+            }
+            .discount-text {
+                font-size: 2vw;
+            }
+            .emoji, .arrow {
+                font-size: 2.5vw;
+            }
+        }
+        /* 中螢幕 (400px-600px) */
+        @media (min-width: 400px) and (max-width: 600px) {
+            .infographic {
+                padding: 1vw;
+            }
+            .button {
+                font-size: 2vw;
+                width: 18vw;
+                height: 5vw;
+                line-height: 5vw;
+            }
+            .title-text {
+                font-size: 2.5vw;
+            }
+            .discount-text {
+                font-size: 1.5vw;
+            }
+            .emoji, .arrow {
+                font-size: 2vw;
+            }
+        }
+        /* 大螢幕 (>600px) */
+        @media (min-width: 600px) {
+            .infographic {
+                padding: 1vw;
+            }
+            .button {
+                font-size: 1.5vw;
+                width: 15vw;
+                height: 4vw;
+                line-height: 4vw;
+            }
+            .title-text {
+                font-size: 2vw;
+            }
+            .discount-text {
+                font-size: 1.2vw;
+            }
+            .emoji, .arrow {
+                font-size: 2vw;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 測試部分 1 -->
-    <div class="infographic-page">
-        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
-            <div class="background-box"></div>
-        </a>
-        <img src="https://static.scientificamerican.com/sciam/cache/file/F766A67E-A8AA-4C90-A929C9AC67075D4B_source.jpg?w=1350" class="event-image">
-        <div class="text-box">
-            <h1>測試資訊圖表</h1>
-            <p>這是一個測試活動描述<br>用於測試資訊圖表功能</p>
+    <div class="infographic">
+        <div class="title">
+            <span class="emoji">😄</span>
+            <span class="title-text">酒店在酒店+票務優惠最多</span>
         </div>
-        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
-            <div class="button">測試按鈕</div>
-        </a>
-    </div>
-
-    <!-- 測試部分 2 -->
-    <div class="infographic-page">
-        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
-            <div class="background-box"></div>
-        </a>
-        <img src="https://static.scientificamerican.com/sciam/cache/file/F766A67E-A8AA-4C90-A929C9AC67075D4B_source.jpg?w=1350" class="event-image">
-        <div class="text-box">
-            <h1>測試活動</h1>
-            <p>這是另一個測試描述<br>用於驗證設計效果</p>
+        <div class="buttons">
+            <a href="https://www.trip.com" target="_blank" class="button trip">Trip.com</a>
+            <a href="https://www.agoda.com" target="_blank" class="button agoda">Agoda.com</a>
+            <a href="https://www.klook.com" target="_blank" class="button klook">Klook.com</a>
+            <a href="https://www.booking.com" target="_blank" class="button booking">Booking.com</a>
         </div>
-        <a href="https://www.am730.com.hk/x/x/536322" target="_blank">
-            <div class="button">測試連結</div>
-        </a>
+        <div class="discount">
+            <div class="discount-text">
+                <span class="emoji">😄</span>《香桃01》獨家優惠碼
+                <span class="arrow">➡️</span>
+                <a href="https://www.trip.com" target="_blank" class="discount-link trip-link">Trip.com 優惠5%</a>
+                <span>|</span>
+                <a href="https://www.klook.com" target="_blank" class="discount-link klook-link">Klook 訂酒店佔6%</a>
+                <span class="arrow">⮞</span>
+            </div>
+        </div>
     </div>
-
-    <script>
-        // 修正後的測試按鈕點擊行為（無提示）
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttons = document.querySelectorAll('.button');
-            buttons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault(); // 阻止預設連結行為
-                    // 直接導向正確的URL，無提示
-                    window.location.href = 'https://www.am730.com.hk/x/x/536322';
-                });
-                // 滑鼠懸停效果（可選）
-                button.addEventListener('mouseover', () => {
-                    button.style.backgroundColor = '#8A2BE2'; // 更深的紫色
-                });
-                button.addEventListener('mouseout', () => {
-                    button.style.backgroundColor = '#A338D4'; // 恢復原色
-                });
-            });
-        });
-    </script>
 </body>
 </html>
