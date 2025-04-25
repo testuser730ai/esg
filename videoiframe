@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video.js with Google IMA Ads</title>
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+  <!-- videojs-contrib-ads CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/7.5.0/videojs.ads.min.css" rel="stylesheet">
+  <!-- videojs-ima CSS -->
+  <link href="https://googleads.github.io/videojs-ima/dist/videojs.ima.css" rel="stylesheet">
+</head>
+<body>
+  <!-- 影片播放器 -->
+  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" muted>
+    <source src="https://storage.googleapis.com/gvabox/media/samples/android.mp4" type="video/mp4" />
+  </video>
+
+  <!-- 引入依賴腳本 -->
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/7.5.0/videojs.ads.min.js"></script>
+  <script src="https://googleads.github.io/videojs-ima/dist/videojs.ima.js"></script>
+  <script>
+    // 初始化 Video.js 播放器
+    var player = videojs('content_video', {
+      fluid: true, // 響應式大小
+      muted: true, // 靜音以符合自動播放政策
+      autoplay: true // 啟用自動播放
+    });
+
+    // 配置 IMA 廣告，使用 Google 測試廣告標籤
+    var imaOptions = {
+      adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/126300327/uat_videovast&description_url=https%3A%2F%2Fwww.am730.com.hk%2F&tfcd=0&npa=0&sz=640x480%7C1280x720&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator=',
+      debug: true // 啟用 IMA SDK 除錯模式
+    };
+
+    // 初始化 IMA 外掛
+    player.ima(imaOptions);
+
+    // 廣告事件監聽
+    player.on('adsready', function() {
+      console.log('廣告已準備好');
+    });
+
+    player.on('adserror', function(event) {
+      console.error('廣告錯誤:', event.data.AdError);
+      player.play(); // 廣告失敗時繼續播放影片
+    });
+
+    player.on('adtimeout', function() {
+      console.error('廣告超時');
+      player.play(); // 超時時繼續播放影片
+    });
+
+    // 初始化廣告（無需等待用戶互動）
+    player.ima.initializeAdDisplayContainer();
+    player.ima.requestAds();
+
+    // 點擊播放器時開始播放
+    player.one('click', function() {
+      console.log('用戶點擊，開始播放');
+      player.play();
+    });
+
+    // 移動設備支援
+    if (navigator.userAgent.match(/iPhone|iPad|Android/i)) {
+      player.one('touchend', function() {
+        console.log('移動設備觸控，開始播放');
+        player.play();
+      });
+    }
+  </script>
+</body>
+</html>
