@@ -4,20 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video.js with Google IMA Ads</title>
-  <!-- Video.js CSS -->
   <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
-  <!-- videojs-contrib-ads CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/7.5.0/videojs.ads.min.css" rel="stylesheet">
-  <!-- videojs-ima CSS -->
   <link href="https://googleads.github.io/videojs-ima/dist/videojs.ima.css" rel="stylesheet">
+  <style>
+    /* 移除所有空白，確保只顯示播放器 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+    .vjs-default-skin {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000; /* 播放器背景為黑色，避免白色 */
+    }
+    /* 確保廣告容器無額外空白 */
+    .video-js .vjs-ima-ad-container {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
-  <!-- 影片播放器 -->
-  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" muted>
-    <source src="https://storage.googleapis.com/gvabox/media/samples/android.mp4" type="video/mp4" />
+  <video id="content_video" class="video-js vjs-default-skin" controls preload="metadata" autoplay muted playsinline>
+    <source src="https://cdn2.am730.com.hk/ESG2023.mp4" type="video/mp4" />
   </video>
-
-  <!-- 引入依賴腳本 -->
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
   <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/7.5.0/videojs.ads.min.js"></script>
@@ -25,15 +41,17 @@
   <script>
     // 初始化 Video.js 播放器
     var player = videojs('content_video', {
-      fluid: true, // 響應式大小
-      muted: true, // 靜音以符合自動播放政策
-      autoplay: true // 啟用自動播放
+      fluid: true,
+      muted: true,
+      autoplay: 'muted',
+      playsinline: true,
+      preload: 'metadata'
     });
 
-    // 配置 IMA 廣告，使用 Google 測試廣告標籤
+    // 配置 IMA 廣告（先使用 Google 測試標籤）
     var imaOptions = {
-      adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/126300327/uat_videovast&description_url=https%3A%2F%2Fwww.am730.com.hk%2F&tfcd=0&npa=0&sz=640x480%7C1280x720&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator=',
-      debug: true // 啟用 IMA SDK 除錯模式
+      adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=',
+      debug: true
     };
 
     // 初始化 IMA 外掛
@@ -45,32 +63,47 @@
     });
 
     player.on('adserror', function(event) {
-      console.error('廣告錯誤:', event.data.AdError);
-      player.play(); // 廣告失敗時繼續播放影片
+      console.error('廣告錯誤: ' + event.data.AdError);
+      player.play();
     });
 
     player.on('adtimeout', function() {
       console.error('廣告超時');
-      player.play(); // 超時時繼續播放影片
-    });
-
-    // 初始化廣告（無需等待用戶互動）
-    player.ima.initializeAdDisplayContainer();
-    player.ima.requestAds();
-
-    // 點擊播放器時開始播放
-    player.one('click', function() {
-      console.log('用戶點擊，開始播放');
       player.play();
     });
 
-    // 移動設備支援
-    if (navigator.userAgent.match(/iPhone|iPad|Android/i)) {
-      player.one('touchend', function() {
-        console.log('移動設備觸控，開始播放');
-        player.play();
-      });
-    }
+    // 修復 Android 播放條
+    player.on('loadedmetadata', function() {
+      console.log('影片元數據載入: 時長 ' + player.duration() + ' 秒');
+      player.currentTime(0);
+    });
+
+    // 處理自動播放
+    player.ready(function() {
+      player.ima.initializeAdDisplayContainer();
+      player.ima.requestAds();
+      const playPromise = player.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          console.log('自動播放成功');
+        }).catch(error => {
+          console.error('自動播放失敗: ' + error.message);
+          // 後備：顯示播放按鈕
+          var playButton = document.createElement('button');
+          playButton.textContent = '播放';
+          playButton.style.position = 'absolute';
+          playButton.style.top = '50%';
+          playButton.style.left = '50%';
+          playButton.style.transform = 'translate(-50%, -50%)';
+          playButton.style.padding = '10px 20px';
+          playButton.style.zIndex = '1000';
+          playButton.onclick = function() {
+            player.play();
+          };
+          document.body.appendChild(playButton);
+        });
+      }
+    });
   </script>
 </body>
 </html>
