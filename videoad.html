@@ -1,70 +1,76 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嵌入 Cloudflare Stream 影片</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 2rem;
-            text-align: center;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px; /* 限制最大寬度 */
-            padding-top: 56.25%; /* 16:9 比例 */
-            background-color: #000; /* 影片背景色 */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .video-container iframe {
-            border: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-        }
-
-        /* 響應式設計 */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .video-container {
-                max-width: 100%;
-                padding-top: 75%; /* 在小螢幕上調整比例 */
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video.js with Google IMA Ads</title>
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+  <!-- videojs-contrib-ads CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/7.5.0/videojs.ads.min.css" rel="stylesheet">
+  <!-- videojs-ima CSS -->
+  <link href="https://googleads.github.io/videojs-ima/dist/videojs.ima.css" rel="stylesheet">
 </head>
 <body>
-    <h1>我的影片</h1>
-    <div class="video-container">
-        <iframe 
-            src="https://customer-azgtjreyjf3f095g.cloudflarestream.com/bcccc2392026da896bea7916a62762b9/iframe?autoplay=true&poster=https%3A%2F%2Fcustomer-azgtjreyjf3f095g.cloudflarestream.com%2Fbcccc2392026da896bea7916a62762b9%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600" 
-            loading="lazy"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true">
-        </iframe>
-    </div>
+  <!-- 影片播放器 -->
+  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" muted>
+    <source src="https://storage.googleapis.com/gvabox/media/samples/android.mp4" type="video/mp4" />
+  </video>
+
+  <!-- 引入依賴腳本 -->
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-ads/7.5.0/videojs.ads.min.js"></script>
+  <script src="https://googleads.github.io/videojs-ima/dist/videojs.ima.js"></script>
+  <script>
+    // 初始化 Video.js 播放器
+    var player = videojs('content_video', {
+      fluid: true, // 響應式大小
+      muted: true, // 靜音以符合自動播放政策
+      autoplay: true // 啟用自動播放
+    });
+
+    // 配置 IMA 廣告，使用 Google 測試廣告標籤
+    var imaOptions = {
+      adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?iu=/126300327/uat_videovast&description_url=https%3A%2F%2Fwww.am730.com.hk%2F&tfcd=0&npa=0&sz=640x480%7C1280x720&gdfp_req=1&unviewed_position_start=1&output=vast&env=vp&impl=s&correlator=',
+      debug: true // 啟用 IMA SDK 除錯模式
+    };
+
+    // 初始化 IMA 外掛
+    player.ima(imaOptions);
+
+    // 廣告事件監聽
+    player.on('adsready', function() {
+      console.log('廣告已準備好');
+    });
+
+    player.on('adserror', function(event) {
+      console.error('廣告錯誤:', event.data.AdError);
+      player.play(); // 廣告失敗時繼續播放影片
+    });
+
+    player.on('adtimeout', function() {
+      console.error('廣告超時');
+      player.play(); // 超時時繼續播放影片
+    });
+
+    // 初始化廣告（無需等待用戶互動）
+    player.ima.initializeAdDisplayContainer();
+    player.ima.requestAds();
+
+    // 點擊播放器時開始播放
+    player.one('click', function() {
+      console.log('用戶點擊，開始播放');
+      player.play();
+    });
+
+    // 移動設備支援
+    if (navigator.userAgent.match(/iPhone|iPad|Android/i)) {
+      player.one('touchend', function() {
+        console.log('移動設備觸控，開始播放');
+        player.play();
+      });
+    }
+  </script>
 </body>
 </html>
